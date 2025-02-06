@@ -25,7 +25,7 @@ def move_to_template(df):
     new_df = keep_last_duplicate(new_df)
 
     # Step 3: Convert date columns to datetime
-    date_columns = ["TreatmentStart", "TreatmentFinish", "Date"]
+    date_columns = ["Treatment Start", "Treatment Finish", "Date"]
     for col in date_columns:
         new_df[col] = pd.to_datetime(new_df[col], errors='coerce')
         if new_df[col].isnull().any():

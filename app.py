@@ -31,9 +31,6 @@ def move_to_template(df):
         if new_df[col].isnull().any():
             st.warning(f"Invalid date values detected in column '{col}'. Coerced to NaT.")
 
-    new_df.loc[(new_df['Product Type'] == "IP") & (new_df['Room Option'].isna()), 'Room Option'] = "N/A"
-
-
     # Step 4: Transform to the new template
     df_transformed = pd.DataFrame({
         "No": range(1, len(new_df) + 1),
@@ -64,7 +61,9 @@ def move_to_template(df):
         "Sum of Unpaid": new_df["Unpaid"],
     })
     return df_transformed
-
+    
+    new_df.loc[(new_df['Product Type'] == "IP") & (new_df['Room Option'].isna()), 'Room Option'] = "N/A"
+    
 # Save the processed data to Excel and return as BytesIO
 def save_to_excel(df, filename):
     output = BytesIO()

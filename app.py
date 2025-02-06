@@ -30,6 +30,7 @@ def move_to_template(df):
         new_df[col] = pd.to_datetime(new_df[col], errors='coerce')
         if new_df[col].isnull().any():
             st.warning(f"Invalid date values detected in column '{col}'. Coerced to NaT.")
+    new_df.loc[new_df['Product Type'] == "IP", 'Room Option'] = new_df.loc[new_df['Product Type'] == "IP", 'Room Option'].fillna("N/A")
 
     # Step 4: Transform to the new template
     df_transformed = pd.DataFrame({

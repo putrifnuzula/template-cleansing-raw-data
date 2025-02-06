@@ -4,16 +4,16 @@ from io import BytesIO
 
 # Function to filter data
 def filter_data(df):
-    df = df[df['ClaimStatus'] == 'R']
+    df = df[df['Claim Status'] == 'R']
     return df
 
 # Function to handle duplicates
 def keep_last_duplicate(df):
-    duplicate_claims = df[df.duplicated(subset='ClaimNo', keep=False)]
+    duplicate_claims = df[df.duplicated(subset='Claim No', keep=False)]
     if not duplicate_claims.empty:
         st.write("Duplicated ClaimNo values:")
-        st.write(duplicate_claims[['ClaimNo']].drop_duplicates())
-    df = df.drop_duplicates(subset='ClaimNo', keep='last')
+        st.write(duplicate_claims[['Claim No']].drop_duplicates())
+    df = df.drop_duplicates(subset='Claim No', keep='last')
     return df
 
 # Main processing function

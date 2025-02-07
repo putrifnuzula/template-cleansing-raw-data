@@ -31,7 +31,7 @@ def move_to_template(df):
         if new_df[col].isnull().any():
             st.warning(f"Invalid date values detected in column '{col}'. Coerced to NaT.")
             
-    new_df.loc[(new_df['Product Type'] == "IP") & (new_df['Product Type'] == "MA") & (new_df['Room Option'].isna()), 'Room Option'] = "N/A"
+    new_df.loc[((new_df['Product Type'] == "IP") | (new_df['Product Type'] == "MA")) & (new_df['Room Option'].isna()), 'Room Option'] = "N/A"
 
     # Step 4: Transform to the new template
     df_transformed = pd.DataFrame({
@@ -95,6 +95,7 @@ if uploaded_file:
     total_accepted = int(transformed_data["Sum of Accepted"].sum())
     total_excess = int(transformed_data["Sum of Excess Total"].sum())
     total_unpaid = int(transformed_data["Sum of Unpaid"].sum())
+    
 
     st.write("Claim Summary:")
     st.write(f"- Total Claims: {total_claims:,}")

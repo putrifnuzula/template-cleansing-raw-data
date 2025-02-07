@@ -49,7 +49,7 @@ def move_to_template(df):
         "Room Option": new_df["Room Option"].str.replace(" ", "", regex = True).str.upper(),
         "Area": new_df["Area"],
         "Diagnosis": new_df["Primary Diagnosis"].str.upper(),
-        "Treatment Place": new_df["Treatment Place"]..str.upper(),
+        "Treatment Place": new_df["Treatment Place"].str.upper(),
         "Treatment Start": new_df["Treatment Start"],
         "Treatment Finish": new_df["Treatment Finish"],
         "Date": new_df["Date"],

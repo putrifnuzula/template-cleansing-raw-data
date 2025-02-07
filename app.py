@@ -48,7 +48,7 @@ def move_to_template(df):
         "Claim Type": new_df["Claim Type"],
         "Room Option": new_df["Room Option"],
         "Area": new_df["Area"],
-        "Diagnosis": new_df["Primary Diagnosis"]..astype(str).str.upper(),
+        "Diagnosis": new_df["Primary Diagnosis"].astype(str).str.upper(),
         "Treatment Place": new_df["Treatment Place"].astype(str).str.strip().str.upper(),
         "Treatment Start": new_df["Treatment Start"],
         "Treatment Finish": new_df["Treatment Finish"],

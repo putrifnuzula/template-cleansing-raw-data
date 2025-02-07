@@ -46,7 +46,7 @@ def move_to_template(df):
         "Membership": new_df["Membership"],
         "Product Type": new_df["Product Type"],
         "Claim Type": new_df["Claim Type"],
-        "Room Option": new_df["Room Option"].astype(str).str.strip().str.upper(),
+        "Room Option": new_df["Room Option"].astype(str).str.replace(" ", "", regex = True).str.upper(),
         "Area": new_df["Area"],
         "Diagnosis": new_df["Primary Diagnosis"].astype(str).str.upper(),
         "Treatment Place": new_df["Treatment Place"].astype(str).str.upper(),

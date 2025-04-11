@@ -55,6 +55,7 @@ def move_to_template(df):
         "Treatment Finish": new_df["Treatment Finish"],
         # "Treatment Finish": new_df["Treatment Finish"].dt.strftime("%-m/%-d/%Y"),
         "Date": new_df["Date"].dt.strftime("%-m/%-d/%Y"),
+        "Remarks": new_df["remarks"],
         "Tahun": new_df["Date"].dt.year,
         "Bulan": new_df["Date"].dt.month,
         "Sum of Billed": new_df["Billed"],

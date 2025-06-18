@@ -52,30 +52,26 @@ def move_to_template(df):
         "Treatment Start": new_df["TreatmentStart"],
         "Treatment Finish": new_df["TreatmentFinish"],
         "Settled Date": new_df["Date"],
-        "Tahun": new_df["Date"].dt.year,
-        "Bulan": new_df["Date"].dt.month,
+        "Year": new_df["Date"].dt.year,
+        "Month": new_df["Date"].dt.month,
         "Length of Stay": new_df["LOS"],
         "Sum of Billed": new_df["Billed"],
         "Sum of Accepted": new_df["Accepted"],
         "Sum of Excess Coy": new_df["ExcessCoy"],
         "Sum of Excess Emp": new_df["ExcessEmp"],
         "Sum of Excess Total": new_df["ExcessTotal"],
-        "Sum of Unpaid": new_df["Unpaid"],
+        "Sum of Unpaid": new_df["Unpaid"]
     })
     return df_transformed
 
 # Save the processed data to Excel and return as BytesIO
-def save_to_excel(df, summary):
+def save_to_excel(df, filename):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         # Write the transformed data
-        df.to_excel(writer, index=False, sheet_name='List Claim')
-        
-        # Write the summary
-        summary_df = pd.DataFrame.from_dict(summary, orient='index', columns=['Value'])
-        summary_df.to_excel(writer, index=True, sheet_name='Summary')
+        df.to_excel(writer, index=False, sheet_name='SC')
     output.seek(0)
-    return output
+    return output, filename
 
 # Streamlit app
 st.title("Claim Data Raw to Template")
@@ -95,24 +91,27 @@ if uploaded_file:
 
     # Compute summary statistics
     total_claims = len(transformed_data)
-    total_billed = transformed_data["Sum of Billed"].sum()
-    total_accepted = transformed_data["Sum of Accepted"].sum()
-    total_excess = transformed_data["Sum of Excess Total"].sum()
-    total_unpaid = transformed_data["Sum of Unpaid"].sum()
+    total_billed = int(transformed_data["Sum of Billed"].sum())
+    total_accepted = int(transformed_data["Sum of Accepted"].sum())
+    total_excess = int(transformed_data["Sum of Excess Total"].sum())
+    total_unpaid = int(transformed_data["Sum of Unpaid"].sum())
 
     st.write("Claim Summary:")
     st.write(f"- Total Claims: {total_claims:,}")
-    st.write(f"- Total Billed: {total_billed:,.2f}")  # Assuming it's monetary and needs 2 decimal points
+    st.write(f"- Total Billed: {total_billed:,.2f}")
     st.write(f"- Total Accepted: {total_accepted:,.2f}")
     st.write(f"- Total Excess: {total_excess:,.2f}")
     st.write(f"- Total Unpaid: {total_unpaid:,.2f}")
 
+    # User input for filename
+    filename = st.text_input("Enter the Excel file name (without extension):", "Transformed_Claim_Data")
+
     # Download link for the Excel file
-    st.write("Download the transformed data as an Excel file:")
-    excel_file = save_to_excel(transformed_data)
-    st.download_button(
-        label="Download Excel File",
-        data=excel_file,
-        file_name="Transformed_Claim_Data.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
+    if filename:
+        excel_file, final_filename = save_to_excel(transformed_data, filename=filename + ".xlsx")
+        st.download_button(
+            label="Download Excel File",
+            data=excel_file,
+            file_name=final_filename,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )

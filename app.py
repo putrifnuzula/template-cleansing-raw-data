@@ -44,7 +44,7 @@ def move_to_template(df):
         "Membership": new_df["Membership"],
         "Product Type": new_df["ProductType"],
         "Claim Type": new_df["ClaimType"],
-        "Room Option" = new_df["RoomOption"].fillna('').astype(str).str.strip().str.upper()
+        "Room Option" : new_df["RoomOption"].fillna('').astype(str).str.strip().str.upper()
         "Area": new_df["Area"],
         "Plan": new_df["PPlan"],
         "Diagnosis": new_df["PrimaryDiagnosis"].str.upper(),
